@@ -49,8 +49,8 @@ class neural_network(object):
     # =======================================================
     def initialization(self,bias_prob=0.05,con_prob = 0.2):
         #--------------------------------
-        input_nids=range(1,self.bnodes[0]+1)
-        output_nids=range(900,self.bnodes[1]+900)
+        input_nids=list(range(1,self.bnodes[0]+1))
+        output_nids=list(range(900,self.bnodes[1]+900))
         
         self.nodedict["ctr"]=len(input_nids)
         
@@ -117,7 +117,7 @@ class neural_network(object):
             inodict["ctr"]=ino
             inodict[name]=ino
             inodict[ino]=[n1,n2]
-            print "\t\tNew innovation number ("+str(ino)+") assigned to "+name
+            print("\t\tNew innovation number ("+str(ino)+") assigned to "+name)
         return ino
         
     # =======================================================
@@ -197,7 +197,7 @@ class neural_network(object):
                 
                 # Feedforward Check
                 if dna["node_id"].index(inid) >= dna["node_id"].index(rnid) and debug:
-                    print "Serious DNA Error: System is not feedforward for specie "+str(dna["name"])+"! Aborting!"
+                    print("Serious DNA Error: System is not feedforward for specie "+str(dna["name"])+"! Aborting!")
                     sys.exit()            
                 try:
                     if debug:
@@ -522,10 +522,11 @@ class neural_network(object):
         cois=np.zeros(len(cinos))
         
         if not len(cinos)==0:
-            coi=len(cinos)/2 #+ np.random.randint(-len(cinos)/2,len(cinos)/2)
+            coi=int(len(cinos)/2) #+ np.random.randint(-len(cinos)/2,len(cinos)/2)
         else:
             coi=0
             
+
         cois[:coi],cois[coi:]=0,1
         
         dna_child["node_fct"]=len(dna_child["node_id"])*['']
@@ -703,7 +704,7 @@ class neural_network(object):
         for dna in pop:
             dna["survived"]+=1
             #if dna["survived"] > 15:
-                #print "Specie "+str(dna["name"])+" is not allowed to crossover anymore!"
+                #print("Specie "+str(dna["name"])+" is not allowed to crossover anymore!"
                 #dna["crossover"]=False
         #-------------------------------------
         # Elitists - Save best dna with different number of nodes
@@ -711,7 +712,7 @@ class neural_network(object):
         pop_next = [pop[ranking[0]]]
         already_seen_index = [ranking[0]]
         self.bestnetworkdict[0]=pop[ranking[0]]
-        #print "Adding specie\t "+str(pop[ranking[0]]["name"])+" (fitness rank "+str(0)+")\tas "+str(0)+" specie! Nnodes: "+str(len(pop[ranking[0]]["node_id"]))+" Survived: "+str(pop[ranking[0]]["survived"])
+        #print("Adding specie\t "+str(pop[ranking[0]]["name"])+" (fitness rank "+str(0)+")\tas "+str(0)+" specie! Nnodes: "+str(len(pop[ranking[0]]["node_id"]))+" Survived: "+str(pop[ranking[0]]["survived"])
         specie_ctr=1
 
         for n in range(1,self.npop):
@@ -721,7 +722,7 @@ class neural_network(object):
             if np.all(sh[index_current,already_seen_index] == 0) and specie_occurence >= 5:
                 pop_next.append(pop[index_current])
                 self.bestnetworkdict[specie_ctr]=pop[index_current]
-                #print "Adding specie\t "+str(pop[index_current]["name"])+" (fitness rank "+str(n)+")\tas "+str(specie_ctr)+" specie! Nnodes: "+str(len(pop[index_current]["node_id"]))+" Survived: "+str(pop[index_current]["survived"])
+                #print("Adding specie\t "+str(pop[index_current]["name"])+" (fitness rank "+str(n)+")\tas "+str(specie_ctr)+" specie! Nnodes: "+str(len(pop[index_current]["node_id"]))+" Survived: "+str(pop[index_current]["survived"])
                 already_seen_index.append(index_current)
                 specie_ctr+=1
             
@@ -730,7 +731,7 @@ class neural_network(object):
 #                index_mateforbid=np.where(sh[index_current,:]==1)[0]
 
 #                for m in range(index_mateforbid.shape[0]):
-#                    print "Forbid design "+str(index_mateforbid[m])+"to mate"
+#                    print("Forbid design "+str(index_mateforbid[m])+"to mate"
 #                    pop[index_mateforbid[m]]["crossover"]=False
 
             if specie_ctr == 10:
@@ -747,7 +748,7 @@ class neural_network(object):
             
 #        if self.limitctr == 20:
 #            self.maxnnodes+=1
-#            print "Increasing maximum node limit to "+str(self.maxnnodes)
+#            print("Increasing maximum node limit to "+str(self.maxnnodes)
         #-------------------------------------
         # Crossover
         #-------------------------------------
@@ -793,7 +794,7 @@ class neural_network(object):
         ave = '%.3e' % self.fitness_ave
         best = '%.3e' % self.fitness_best
         worst = '%.3e' % self.fitness_worst
-        print  str(n)+"\t"+str(ave)+"\t"+str(best)+"\t"+str(worst)
+        print(str(n)+"\t"+str(ave)+"\t"+str(best)+"\t"+str(worst))
         return [self.fitness_ave,self.fitness_best,self.npop]
     # =======================================================
     def return_best_member(self):
@@ -1036,7 +1037,7 @@ class neural_network(object):
                 string=string+"Fitness_"+str(n)+":  "+str(np.around(fitness,decimals=4))+"\n"
         except:
             pass
-        plt.annotate(string, (0.8,0), (0, 25), xycoords='axes fraction', textcoords='offset points', fontsize=8,ha='center', va='center', bbox=props)
+        #plt.annotate(string, (0.8,0), (0, 25), xycoords='axes fraction', textcoords='offset points', fontsize=8,ha='center', va='center', bbox=props)
         plt.axis('off')
         
         if plotname=="":
